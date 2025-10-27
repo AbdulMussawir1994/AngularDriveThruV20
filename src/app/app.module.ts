@@ -7,17 +7,16 @@ import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
-import { LoginComponent } from './login/login.component';
 
 @NgModule({ declarations: [
         AppComponent,
-        AdminLayoutComponent,
-        LoginComponent,
+        AdminLayoutComponent
     ],
     bootstrap: [AppComponent], imports: [BrowserAnimationsModule,
-        FormsModule,
-        ReactiveFormsModule,
-        ComponentsModule,
-        RouterModule,
-        AppRoutingModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
+   // LoginComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    ComponentsModule,
+    RouterModule,
+    AppRoutingModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }

@@ -1,48 +1,94 @@
 <div class="main-content">
   <div class="container-fluid">
-      <div class="row">
-          <div class="col-md-12">
-              <div class="card">
-                  <div class="card-header card-header-danger">
-                      <h4 class="card-title ">Simple Table</h4>
-                      <p class="card-category"> Here is a subtitle for this table</p>
-                  </div>
-                  <div class="card-body">
-                      <div class="table-responsive">
-                          <table class="table">
-                              <thead class=" text-primary">
-                                  <th>
-                                      Action
-                                  </th>
-                                  <th>
-                                      Outlet Name 
-                                  </th>
-                                  <th>
-                                      Address
-                                  </th>
-                                  <th>
-                                      Status
-                                  </th>
-                                  <th>
-                                      Delivery
-                                  </th>
-                                  <th>
-                                    Pickup
-                                  </th>
-                                  <th>
-                                    Dine-in
-                                  </th>
-                              </thead>
-                              <tbody>
-                                  <tr *ngFor="let item in OutletsDetail">
-                                    <td scope="row" {{}}></td>
-                                  </tr>   
-                              </tbody>
-                          </table>
-                      </div>
-                  </div>
-              </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-danger d-flex justify-content-between align-items-center">
+            <h4 class="card-title mb-0">Outlets List</h4>
+            <button
+              routerLink="/outlet/add"
+              class="btn btn-sm btn-primary"
+              id="addBtn"
+            >
+              Add New Outlet
+            </button>
           </div>
+
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead class="text-primary">
+                  <!-- 🔍 Filter Row -->
+                  <tr>
+                    <th></th>
+                    <th><input class="form-control" placeholder="Search Name" [formControl]="searchForm.controls['name']" /></th>
+                    <th><input class="form-control" placeholder="Search Address" [formControl]="searchForm.controls['address']" /></th>
+                    <th><input class="form-control" placeholder="Search Status" [formControl]="searchForm.controls['status']" /></th>
+                    <th><input class="form-control" placeholder="Search Delivery" [formControl]="searchForm.controls['delivery']" /></th>
+                    <th><input class="form-control" placeholder="Search Pickup" [formControl]="searchForm.controls['pickup']" /></th>
+                    <th><input class="form-control" placeholder="Search Dine-In" [formControl]="searchForm.controls['dinein']" /></th>
+                  </tr>
+
+                  <tr>
+                    <th>Action</th>
+                    <th>Outlet Name</th>
+                    <th>Address</th>
+                    <th>Status</th>
+                    <th>Delivery</th>
+                    <th>Pickup</th>
+                    <th>Dine-in</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  @for (item of paginatedOutlets(); track item.id) {
+                    <tr>
+                      <td>
+                        <a [routerLink]="['/outlet', 'edit', item.id]" class="btn btn-sm btn-outline-primary me-2" style="margin-right: 10px;">Edit</a>
+                        <button (click)="deleteOutlet(item.id)" class="btn btn-sm btn-outline-danger">Delete</button>
+                      </td>
+                      <td>{{ item.name }}</td>
+                      <td>{{ item.address }}</td>
+                      <td>{{ item.status }}</td>
+                      <td>{{ item.delivery }}</td>
+                      <td>{{ item.pickup }}</td>
+                      <td>{{ item.dinein }}</td>
+                    </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="7" class="text-center text-muted">No outlets found.</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            <!-- 📄 Pagination Controls -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <div>
+                Page {{ currentPage() }} / {{ totalPages() }}
+              </div>
+              <div>
+                <button
+                  class="btn btn-outline-secondary btn-sm me-2"
+                  (click)="prevPage()"
+                  [disabled]="currentPage() === 1"
+                >
+                  Previous
+                </button>
+                <button
+                  class="btn btn-outline-secondary btn-sm"
+                  (click)="nextPage()"
+                  [disabled]="currentPage() === totalPages()"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
+    </div>
   </div>
 </div>

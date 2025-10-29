@@ -19,6 +19,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
 import { OutletComponent } from 'app/outlet/outlet.component';
 import { AddOutletComponent } from 'app/add-outlet/add-outlet.component';
+import { StoreComponent } from 'app/store.component/store.component';
 
 @NgModule({
   imports: [
@@ -44,6 +45,7 @@ import { AddOutletComponent } from 'app/add-outlet/add-outlet.component';
     MapsComponent,
     NotificationsComponent,
     UpgradeComponent,
+    StoreComponent
   ]
 })
 

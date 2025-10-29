@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { Component, OnInit } from "@angular/core";
+import { Router, NavigationEnd } from "@angular/router";
+import { filter } from "rxjs/operators";
 
 declare const $: any;
 
@@ -13,28 +13,49 @@ interface RouteInfo {
 }
 
 export const ROUTES: RouteInfo[] = [
-  { path: '/dashboard', title: 'Dashboard', icon: 'dashboard', class: '' },
+  { path: "/dashboard", title: "Dashboard", icon: "dashboard", class: "" },
   {
-    title: 'Outlet Management',
-    icon: 'store',
-    class: '',
+    title: "Outlet Management",
+    icon: "store",
+    class: "",
     children: [
-      { path: '/outlet', title: 'Outlet List', icon: 'list', class: '' },
-      { path: '/outlet/add', title: 'Add Outlet', icon: 'add', class: '' },
-      { path: '/outlet/email', title: 'Email Outlets', icon: 'email', class: '' }
-    ]
+      { path: "/outlet", title: "Outlet List", icon: "list", class: "" },
+      { path: "/outlet/add", title: "Add Outlet", icon: "add", class: "" },
+      {
+        path: "/outlet/email",
+        title: "Email Outlets",
+        icon: "email",
+        class: "",
+      },
+    ],
   },
-  { path: '/user-profile', title: 'User Profile', icon: 'person', class: '' },
-  { path: '/table-list', title: 'Table List', icon: 'content_paste', class: '' },
-  { path: '/notifications', title: 'Notifications', icon: 'notifications', class: '' },
-  { path: '/upgrade', title: 'Upgrade to PRO', icon: 'unarchive', class: 'active-pro' }
+  { path: "/store", title: "Store", icon: "store", class: "" },
+  { path: "/user-profile", title: "User Profile", icon: "person", class: "" },
+  {
+    path: "/table-list",
+    title: "Table List",
+    icon: "content_paste",
+    class: "",
+  },
+  {
+    path: "/notifications",
+    title: "Notifications",
+    icon: "notifications",
+    class: "",
+  },
+  {
+    path: "/upgrade",
+    title: "Upgrade to PRO",
+    icon: "unarchive",
+    class: "active-pro",
+  },
 ];
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css'],
-  standalone: false
+  selector: "app-sidebar",
+  templateUrl: "./sidebar.component.html",
+  styleUrls: ["./sidebar.component.css"],
+  standalone: false,
 })
 export class SidebarComponent implements OnInit {
   menuItems: RouteInfo[] = [];
@@ -48,13 +69,13 @@ export class SidebarComponent implements OnInit {
 
     // ✅ Automatically close submenu when navigating elsewhere
     this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
+      .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: any) => {
         const url = event.urlAfterRedirects;
 
         // Highlight correct submenu if user directly navigates via URL
-        const parent = this.menuItems.find(item =>
-          item.children?.some(child => url.startsWith(child.path!))
+        const parent = this.menuItems.find((item) =>
+          item.children?.some((child) => url.startsWith(child.path!))
         );
         this.expanded = parent ? parent.title : null;
 

@@ -18,7 +18,7 @@ import { CommonModule } from "@angular/common";
 import { StoreComponent } from './store.component/store.component';
 
 @NgModule({
-  declarations: [AppComponent, AdminLayoutComponent, StoreComponent],
+  declarations: [AppComponent, AdminLayoutComponent],
   bootstrap: [AppComponent],
   imports: [
     BrowserAnimationsModule,

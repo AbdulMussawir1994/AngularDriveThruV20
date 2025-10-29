@@ -18,6 +18,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
 import { OutletComponent } from 'app/outlet/outlet.component';
+import { AddOutletComponent } from 'app/add-outlet/add-outlet.component';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { OutletComponent } from 'app/outlet/outlet.component';
   declarations: [
     DashboardComponent,
     OutletComponent,
+    AddOutletComponent,
     UserProfileComponent,
     TableListComponent,
     TypographyComponent,

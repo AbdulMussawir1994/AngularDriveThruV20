@@ -1,0 +1,175 @@
+/* ===============================
+   🌐 SIDEBAR STYLES - FINAL CLEAN VERSION
+   =============================== */
+
+.material-icons{
+  color: black;
+}
+
+/* Wrapper */
+.sidebar-wrapper {
+  padding: 0;
+}
+
+/* ===============================
+   MAIN NAV ITEMS
+   =============================== */
+.nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  position: relative;
+
+  &.active-parent > .nav-link.main-item {
+    background-color: rgba(25, 118, 210, 0.15);
+    color: #1976d2;
+    font-weight: 600;
+  }
+}
+
+.nav-link.main-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #000000;
+  padding: 12px 1px;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 400;
+
+  &:hover {
+    background-color: rgba(25, 118, 210, 0.1);
+    color: #1976d2;
+  }
+}
+
+/* Left Section (icon + title) */
+.menu-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Right Expand/Collapse Arrow */
+.right-icon {
+  font-size: 20px;
+  color: #666;
+  transition: transform 0.3s ease, color 0.2s ease;
+
+  &.expanded {
+    transform: rotate(180deg);
+    color: #1976d2;
+  }
+}
+
+/* ===============================
+   SUBMENU STYLING
+   =============================== */
+.submenu {
+  list-style: none;
+  margin: 5px 0;
+  padding-left: 2.2rem;
+  background-color: #fafafa;
+  border-left: 2px solid rgba(25, 118, 210, 0.15);
+  transition: all 0.3s ease-in-out;
+
+  /* Smooth show/hide animation support */
+  max-height: 600px;
+  overflow: hidden;
+
+  .submenu-item-list {
+    margin: 4px 0;
+    border-radius: 6px;
+    overflow: hidden;
+
+    a.nav-link.sub-new-list {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      color: #555;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 6px;
+      transition: all 0.25s ease;
+
+      i.material-icons {
+        font-size: 18px;
+        color: #888;
+        transition: color 0.25s ease;
+      }
+
+      &:hover {
+        background-color: #e3f2fd;
+        color: #1976d2;
+        transform: translateX(3px);
+
+        i.material-icons {
+          color: #1976d2;
+        }
+      }
+    }
+
+    &.active a.nav-link.sub-new-list {
+      background-color: #1976d2;
+      color: #fff;
+      font-weight: 600;
+
+      i.material-icons {
+        color: #fff;
+      }
+    }
+  }
+}
+
+/* ===============================
+   DARK THEME VARIANT (danger)
+   =============================== */
+.sidebar[data-color="danger"] {
+  .submenu {
+    background-color: #2b2b2b;
+    border-left-color: #f44336;
+
+    .submenu-item-list a.nav-link.sub-new-list {
+      color: #ddd;
+
+      &:hover {
+        background-color: rgba(244, 67, 54, 0.2);
+        color: #fff;
+      }
+    }
+
+    .submenu-item-list.active a.nav-link.sub-new-list {
+      background-color: #f44336;
+      color: #fff;
+    }
+  }
+
+  .nav-item.active-parent > .nav-link.main-item {
+    background-color: rgba(244, 67, 54, 0.15);
+    color: #f44336;
+  }
+
+  .right-icon.expanded {
+    color: #f44336;
+  }
+}
+
+/* ===============================
+   RESPONSIVE BEHAVIOR
+   =============================== */
+@media (max-width: 991px) {
+  .submenu {
+    padding-left: 1.2rem;
+  }
+
+  .nav-link.main-item {
+    padding: 10px 8px;
+  }
+}

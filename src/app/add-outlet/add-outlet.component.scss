@@ -1,0 +1,65 @@
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  background: #f5f6fa;
+  min-height: 100vh;
+}
+
+.outlet-card {
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 900px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+  h3 {
+    text-align: center;
+    color: #1976d2;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+
+  .mat-form-field{
+    font-size: 15px;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .full-width {
+    grid-column: 1 / -1;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+
+    button {
+      height: 42px;
+      font-weight: 500;
+      border-radius: 8px;
+      min-width: 120px;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .outlet-card {
+    padding: 1.5rem;
+  }
+
+  .actions {
+    flex-direction: column;
+    button {
+      width: 100%;
+    }
+  }
+}

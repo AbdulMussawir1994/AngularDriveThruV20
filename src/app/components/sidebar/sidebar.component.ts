@@ -16,7 +16,7 @@ export const ROUTES: RouteInfo[] = [
   { path: "/dashboard", title: "Dashboard", icon: "dashboard", class: "" },
   {
     title: "Outlet Management",
-    icon: "store",
+    icon: "arrow_drop_down_circle",
     class: "",
     children: [
       { path: "/outlet", title: "Outlet List", icon: "list", class: "" },

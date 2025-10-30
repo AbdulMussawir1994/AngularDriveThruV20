@@ -15,7 +15,6 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
 import { CommonModule } from "@angular/common";
-import { StoreComponent } from './store.component/store.component';
 
 @NgModule({
   declarations: [AppComponent, AdminLayoutComponent],

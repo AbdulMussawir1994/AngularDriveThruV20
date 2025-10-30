@@ -1,4 +1,4 @@
-interface Outlet {
+export interface Outlet {
   id: number;
   name: string;
   address: string;
@@ -6,4 +6,9 @@ interface Outlet {
   delivery: string;
   pickup: string;
   dinein: string;
+  phone: string;
+  timeZone: Date;
+  openingTime: Date;
+  closingTime: Date;
+  goalSummary: string;
 }

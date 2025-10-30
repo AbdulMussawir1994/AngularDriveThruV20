@@ -41,6 +41,7 @@
   text-decoration: none;
   cursor: pointer;
   font-weight: 400;
+  font-size: 13px;
 
   &:hover {
     background-color: rgba(25, 118, 210, 0.1);

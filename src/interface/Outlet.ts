@@ -7,8 +7,14 @@ export interface Outlet {
   pickup: string;
   dinein: string;
   phone: string;
-  timeZone: Date;
+  timeZone: string;
   openingTime: Date;
   closingTime: Date;
   goalSummary: string;
+  breakFastStart: Date;
+  breakFastEnd: Date;
+  lunchStart: Date;
+  lunchEnd: Date;
+  dinnerStart: Date;
+  dinnerEnd: Date; 
 }

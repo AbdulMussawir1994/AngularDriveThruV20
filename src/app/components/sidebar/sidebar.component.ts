@@ -14,41 +14,42 @@ interface RouteInfo {
 
 export const ROUTES: RouteInfo[] = [
   { path: "/dashboard", title: "Dashboard", icon: "dashboard", class: "" },
-  {
-    title: "Outlet Management",
-    icon: "arrow_drop_down_circle",
-    class: "",
-    children: [
-      { path: "/outlet", title: "Outlet List", icon: "list", class: "" },
-      { path: "/outlet/add", title: "Add Outlet", icon: "add", class: "" },
-      {
-        path: "/outlet/email",
-        title: "Email Outlets",
-        icon: "email",
-        class: "",
-      },
-    ],
-  },
-  { path: "/store", title: "Store", icon: "store", class: "" },
+  { path: "/outlet", title: "Outlet Management", icon: "store", class: "" },
+  // {
+  //   title: "Outlet Management",
+  //   icon: "arrow_drop_down_circle",
+  //   class: "",
+  //   children: [
+  //     { path: "/outlet", title: "Outlet List", icon: "list", class: "" },
+  //     { path: "/outlet/add", title: "Add Outlet", icon: "add", class: "" },
+  //     {
+  //       path: "/outlet/email",
+  //       title: "Email Outlets",
+  //       icon: "email",
+  //       class: "",
+  //     },
+  //   ],
+  // },
+  //{ path: "/store", title: "Store", icon: "store", class: "" },
   { path: "/user-profile", title: "User Profile", icon: "person", class: "" },
   {
     path: "/table-list",
-    title: "Table List",
+    title: "Reports",
     icon: "content_paste",
     class: "",
   },
-  {
-    path: "/notifications",
-    title: "Notifications",
-    icon: "notifications",
-    class: "",
-  },
-  {
-    path: "/upgrade",
-    title: "Upgrade to PRO",
-    icon: "unarchive",
-    class: "active-pro",
-  },
+  // {
+  //   path: "/notifications",
+  //   title: "Notifications",
+  //   icon: "notifications",
+  //   class: "",
+  // },
+  // {
+  //   path: "/upgrade",
+  //   title: "Upgrade to PRO",
+  //   icon: "unarchive",
+  //   class: "active-pro",
+  // },
 ];
 
 @Component({

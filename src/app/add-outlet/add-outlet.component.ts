@@ -6,6 +6,7 @@ import {
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { Outlet } from "interface/Outlet";
 
 @Component({
   selector: "app-add-outlet",
@@ -21,6 +22,27 @@ export class AddOutletComponent implements OnInit {
   form!: FormGroup;
   isSubmitting = false;
 
+  outlet: Outlet = {
+    id: 0,
+    name: "Main Street Location",
+    address: "123 Main Street, City, ST 123456",
+    status: "",
+    delivery: "",
+    pickup: "",
+    dinein: "",
+    phone: "(555) 123-4567",
+    timeZone: "Eastern Time",
+    openingTime: new Date(new Date().setHours(17, 0, 0, 0)), // ✅ 5:00 PM today
+    closingTime: new Date(new Date().setHours(23, 0, 0, 0)), // ✅ 5:00 PM today
+    goalSummary: "",
+    breakFastStart: new Date(new Date().setHours(6, 0, 0, 0)), // ✅ 5:00 PM today
+    breakFastEnd: new Date(new Date().setHours(12, 0, 0, 0)), // ✅ 5:00 PM today
+    lunchStart: new Date(new Date().setHours(12, 0, 0, 0)), // ✅ 5:00 PM today
+    lunchEnd: new Date(new Date().setHours(16, 0, 0, 0)), // ✅ 5:00 PM today
+    dinnerStart: new Date(new Date().setHours(16, 0, 0, 0)), // ✅ 5:00 PM today
+    dinnerEnd: new Date(new Date().setHours(23, 0, 0, 0)), // ✅ 5:00 PM today
+  };
+
   ngOnInit(): void {
     this.initForm();
   }
@@ -34,10 +56,6 @@ export class AddOutletComponent implements OnInit {
       email: ["", [Validators.required, Validators.email]],
       phone: ["", [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]],
       address: ["", Validators.required],
-      status: ["1", Validators.required],
-      delivery: ["1", Validators.required],
-      pickup: ["1", Validators.required],
-      dinein: ["0", Validators.required],
     });
   }
 
@@ -53,7 +71,7 @@ export class AddOutletComponent implements OnInit {
 
     // Simulate async save
     setTimeout(() => {
-      alert("Outlet added successfully ✅");
+      alert("Form submitted successfully ✅");
       this.isSubmitting = false;
       this.router.navigate(["/outlet"]);
     }, 1000);
@@ -66,5 +84,16 @@ export class AddOutletComponent implements OnInit {
   // Small helper for validation messages
   getControl(name: string) {
     return this.form.get(name);
+  }
+
+  /** ✅ Computed getter - lightweight and clean */
+  get isOpenNow(): boolean {
+    const outlet = this.outlet;
+    if (!outlet?.openingTime || !outlet?.closingTime) return false;
+
+    const now = new Date();
+    return (
+      now >= new Date(outlet.openingTime) && now <= new Date(outlet.closingTime)
+    );
   }
 }

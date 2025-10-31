@@ -1,20 +1,20 @@
 export interface Outlet {
-  id: number;
+  id?: number;
   name: string;
   address: string;
   status: string;
   delivery: string;
   pickup: string;
   dinein: string;
-  phone: string;
-  timeZone: string;
-  openingTime: Date;
-  closingTime: Date;
-  goalSummary: string;
-  breakFastStart: Date;
-  breakFastEnd: Date;
-  lunchStart: Date;
-  lunchEnd: Date;
-  dinnerStart: Date;
-  dinnerEnd: Date; 
+  phone?: string;
+  timeZone?: string;
+  openingTime?: Date | null;
+  closingTime?: Date | null;
+  goalSummary?: string;
+  breakFastStart?: Date | null;
+  breakFastEnd?: Date | null;
+  lunchStart?: Date | null;
+  lunchEnd?: Date | null;
+  dinnerStart?: Date | null;
+  dinnerEnd?: Date | null;
 }

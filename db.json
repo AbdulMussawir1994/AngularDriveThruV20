@@ -1,0 +1,112 @@
+{
+  "outlets": [
+    {
+      "id": 1,
+      "name": "Outlet 1",
+      "address": "Karachi",
+      "status": "Active",
+      "delivery": "Enabled",
+      "pickup": "Enabled",
+      "dinein": "Disabled"
+    },
+    {
+      "id": 2,
+      "name": "Outlet 2",
+      "address": "Lahore",
+      "status": "Active",
+      "delivery": "Enabled",
+      "pickup": "Enabled",
+      "dinein": "Disabled"
+    },
+    {
+      "id": 3,
+      "name": "Outlet 3",
+      "address": "Islamabad",
+      "status": "Inactive",
+      "delivery": "Disabled",
+      "pickup": "Enabled",
+      "dinein": "Enabled"
+    },
+    {
+      "id": 4,
+      "name": "Outlet 4",
+      "address": "Quetta",
+      "status": "Active",
+      "delivery": "Enabled",
+      "pickup": "Enabled",
+      "dinein": "Disabled"
+    },
+    {
+      "id": 5,
+      "name": "Outlet 5",
+      "address": "Peshawar",
+      "status": "Inactive",
+      "delivery": "Disabled",
+      "pickup": "Disabled",
+      "dinein": "Enabled"
+    },
+    {
+      "id": 6,
+      "name": "Outlet 6",
+      "address": "Rawalpindi",
+      "status": "Active",
+      "delivery": "Enabled",
+      "pickup": "Enabled",
+      "dinein": "Enabled"
+    },
+    {
+      "id": 7,
+      "name": "Outlet 7",
+      "address": "Faisalabad",
+      "status": "Inactive",
+      "delivery": "Disabled",
+      "pickup": "Enabled",
+      "dinein": "Enabled"
+    },
+    {
+      "id": 8,
+      "name": "Outlet 8",
+      "address": "Multan",
+      "status": "Active",
+      "delivery": "Enabled",
+      "pickup": "Disabled",
+      "dinein": "Disabled"
+    },
+    {
+      "id": 9,
+      "name": "Outlet 9",
+      "address": "Hyderabad",
+      "status": "Active",
+      "delivery": "Enabled",
+      "pickup": "Enabled",
+      "dinein": "Disabled"
+    },
+    {
+      "id": 10,
+      "name": "Outlet 10",
+      "address": "Sialkot",
+      "status": "Inactive",
+      "delivery": "Disabled",
+      "pickup": "Enabled",
+      "dinein": "Enabled"
+    },
+    {
+      "id": 11,
+      "name": "Outlet 11",
+      "address": "Abbottabad",
+      "status": "Active",
+      "delivery": "Enabled",
+      "pickup": "Enabled",
+      "dinein": "Disabled"
+    },
+    {
+      "id": 12,
+      "name": "Outlet 12",
+      "address": "Sukkur",
+      "status": "Active",
+      "delivery": "Enabled",
+      "pickup": "Enabled",
+      "dinein": "Disabled"
+    }
+  ]
+}

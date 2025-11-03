@@ -87,7 +87,7 @@ export class OutletComponent implements OnInit {
 
   /** Delete outlet from both dataset and filtered list */
   deleteOutlet(id: number): void {
-    const updated = this.allOutlets.filter((o) => o.id !== id);
+    const updated = this.allOutlets.filter((x) => x.id !== id);
     (this as any).allOutlets = updated;
     this.applyFilters(this.searchForm.value);
   }

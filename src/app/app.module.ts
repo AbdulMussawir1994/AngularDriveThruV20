@@ -15,13 +15,13 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
 import { CommonModule } from "@angular/common";
-
+import { ToastrModule } from "ngx-toastr";
+import { LoginComponent } from "./login/login.component";
 @NgModule({
-  declarations: [AppComponent, AdminLayoutComponent],
+  declarations: [AppComponent, AdminLayoutComponent, LoginComponent],
   bootstrap: [AppComponent],
   imports: [
     BrowserAnimationsModule,
-    // LoginComponent,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -33,6 +33,12 @@ import { CommonModule } from "@angular/common";
     MatFormFieldModule,
     MatInputModule,
     AppRoutingModule,
+
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

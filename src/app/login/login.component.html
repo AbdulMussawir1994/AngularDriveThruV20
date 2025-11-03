@@ -1,1 +1,63 @@
-<h1>Hello</h1>
+<!-- Loading Spinner -->
+<!-- Loading Spinner Centered -->
+<div *ngIf="loading" class="spinner-overlay">
+  <div class="spinner"></div>
+</div>
+
+<div class="auth-wrapper">
+  <div class="bubble-wrapper">
+    <div class="auth-card">
+      <h1>Sign In</h1>
+
+      <form [formGroup]="signInForm" (ngSubmit)="onSubmit()" novalidate>
+        <!-- CNIC Field -->
+        <input
+          type="text"
+          formControlName="userName"
+          placeholder="Enter Username"
+        />
+        <p class="form-error" [class.hidden]="!isFieldInvalid('userName')">
+          {{ getFieldError('userName') }}
+        </p>
+
+        <!-- Password Field -->
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="Enter Password"
+        />
+        <p class="form-error" [class.hidden]="!isFieldInvalid('password')">
+          {{ getFieldError('password') }}
+        </p>
+
+        <!-- Submit Button -->
+        <input
+          type="submit"
+          value="SIGN IN"
+          [disabled]="signInForm.invalid"
+          [ngStyle]="{
+            backgroundColor: signInForm.invalid ? '#4393d9' : '#1976d2',
+            color: '#ffffff',
+            cursor: signInForm.invalid ? 'not-allowed' : 'pointer',
+            fontWeight: 'bold',
+            padding: '10px',
+            border: 'none',
+            borderRadius: '5px',
+            marginTop: '10px',
+            transition: 'all 0.3s ease'
+          }"
+        />
+      </form>
+
+      <!-- Footer -->
+      <div class="auth-footer">
+        <p>Don't have an account? <a routerLink="/register">Sign Up</a></p>
+      </div>
+    </div>
+
+    <!-- Bubble Animation -->
+    <ul class="colorlib-bubbles">
+      <li *ngFor="let _ of bubbles; let i = index" [attr.data-index]="i"></li>
+    </ul>
+  </div>
+</div>

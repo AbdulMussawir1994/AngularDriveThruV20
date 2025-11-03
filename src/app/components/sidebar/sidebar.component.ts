@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, NavigationEnd } from "@angular/router";
 import { filter } from "rxjs/operators";
+import { AuthService } from "services/AuthService";
 
 declare const $: any;
 
@@ -63,7 +64,7 @@ export class SidebarComponent implements OnInit {
   expanded: string | null = null;
   activeChild: string | null = null;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private Auth: AuthService) {}
 
   ngOnInit() {
     this.menuItems = ROUTES;
@@ -96,5 +97,9 @@ export class SidebarComponent implements OnInit {
 
   isMobileMenu(): boolean {
     return $(window).width() <= 991;
+  }
+
+  LogOut(): void{
+    this.Auth.logOut();
   }
 }

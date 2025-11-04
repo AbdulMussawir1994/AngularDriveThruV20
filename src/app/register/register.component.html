@@ -1,0 +1,116 @@
+<!-- Loading Spinner -->
+<div *ngIf="loading" class="spinner-overlay">
+  <div class="spinner"></div>
+</div>
+
+<div class="auth-wrapper">
+  <div class="bubble-wrapper">
+    <div class="auth-card">
+      <h1>Sign Up</h1>
+
+      <form [formGroup]="signInForm" (ngSubmit)="onSubmit()" novalidate>
+        <!-- Username -->
+        <div class="form-group">
+          <input
+            type="text"
+            formControlName="userName"
+            placeholder="Enter Username"
+            style="width: 100%"
+          />
+          <p
+            class="form-error"
+            style="margin-bottom: 0px"
+            *ngIf="isFieldInvalid('userName')"
+          >
+            {{ getFieldError("userName") }}
+          </p>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="Enter Email"
+            style="width: 100%"
+          />
+          <p
+            class="form-error"
+            style="margin-bottom: 0px"
+            *ngIf="isFieldInvalid('email')"
+          >
+            {{ getFieldError("email") }}
+          </p>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <input
+            type="password"
+            formControlName="password"
+            placeholder="Enter Password"
+            style="width: 100%"
+          />
+          <p
+            class="form-error"
+            style="margin-bottom: 0px"
+            *ngIf="isFieldInvalid('password')"
+          >
+            {{ getFieldError("password") }}
+          </p>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+          <input
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="Confirm Password"
+            style="width: 100%"
+          />
+          <p
+            class="form-error"
+            style="margin-bottom: 0px"
+            *ngIf="
+              isFieldInvalid('confirmPassword') ||
+              signInForm.errors?.passwordsMismatch
+            "
+          >
+            {{ getFieldError("confirmPassword") }}
+          </p>
+        </div>
+
+        <!-- Submit Button -->
+        <input
+          type="submit"
+          value="REGISTER"
+          [disabled]="signInForm.invalid"
+          [ngStyle]="{
+            backgroundColor: signInForm.invalid ? '#4393d9' : '#1976d2',
+            color: '#ffffff',
+            cursor: signInForm.invalid ? 'not-allowed' : 'pointer',
+            fontWeight: 'bold',
+            padding: '10px',
+            border: 'none',
+            borderRadius: '5px',
+            marginTop: '10px',
+            transition: 'all 0.3s ease'
+          }"
+        />
+      </form>
+
+      <!-- Footer -->
+      <div class="auth-footer">
+        <p>
+          Already have an account. Please
+          <a routerLink="/login" style="color: white;"><strong>Sign In</strong></a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Bubble Animation -->
+    <ul class="colorlib-bubbles">
+      <li *ngFor="let _ of bubbles; let i = index" [attr.data-index]="i"></li>
+    </ul>
+  </div>
+</div>

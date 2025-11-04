@@ -18,3 +18,10 @@ export interface Outlet {
   dinnerStart?: Date | null;
   dinnerEnd?: Date | null;
 }
+
+export class RegisterViewModel{
+    username: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+}

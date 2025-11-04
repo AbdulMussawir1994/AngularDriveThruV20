@@ -2,23 +2,30 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { BrowserModule } from "@angular/platform-browser";
 import { Routes, RouterModule } from "@angular/router";
-
 import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
 import { LoginComponent } from "./login/login.component";
 import { AuthRoleGuard } from "./guards/auth.guard";
+import { RegisterComponent } from "./register/register.component";
 
 const routes: Routes = [
-  // ✅ Default route — show login page
+  // Public routes first
   {
-    path: "",
+    path: "login",
     component: LoginComponent,
     title: "Login Page",
   },
+  {
+    path: "register",
+    component: RegisterComponent,
+    title: "Register Page",
+  },
 
+  // Protected admin layout
   {
     path: "",
     component: AdminLayoutComponent,
     canActivateChild: [AuthRoleGuard],
+    data: { roles: ["User"] },
     children: [
       {
         path: "",
@@ -30,19 +37,20 @@ const routes: Routes = [
     ],
   },
 
-  // ✅ Explicit login route (optional)
+  // Default redirect
   {
-    path: "login",
-    component: LoginComponent,
-    title: "Login Page",
+    path: "",
+    redirectTo: "login",
+    pathMatch: "full",
   },
 
-  // ✅ Catch-all route (redirect unknown routes)
+  // Catch-all route (unknown)
   {
     path: "**",
-    redirectTo: "",
+    redirectTo: "login",
   },
 ];
+
 
 @NgModule({
   imports: [CommonModule, BrowserModule, RouterModule.forRoot(routes)],

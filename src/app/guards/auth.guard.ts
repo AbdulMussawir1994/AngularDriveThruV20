@@ -1,4 +1,4 @@
-import { inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import {
   ActivatedRouteSnapshot,
   CanActivate,
@@ -7,26 +7,23 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
 import { AuthService } from "services/AuthService";
+import { ToastSwalAlertService } from "services/ToastSwalAlertService";
 
 @Injectable({ providedIn: "root" })
 export class AuthRoleGuard implements CanActivate, CanActivateChild {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly toastr = inject(ToastrService);
+  
+  constructor(private toastr: ToastSwalAlertService) {} // ✅ Proper injection
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean | UrlTree {
+  private cachedRoles: string[] | null = null;
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.checkAccess(route, state);
   }
 
-  canActivateChild(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean | UrlTree {
+  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.checkAccess(route, state);
   }
 
@@ -34,24 +31,29 @@ export class AuthRoleGuard implements CanActivate, CanActivateChild {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean | UrlTree {
-    // 🔒 1. Check authentication
+    // 🔒 1. Authentication check
     if (!this.auth.isLoggedIn()) {
       this.auth.sessionExpired();
-      console.warn("AuthRoleGuard → User not logged in, redirecting to login");
       return this.router.createUrlTree(["/login"], {
         queryParams: { returnUrl: state.url },
       });
     }
 
-    // 🔑 2. Check role-based access (optional)
-    const expectedRoles = route.data["roles"] as string[] ?? [];
-    if (expectedRoles.length && !this.auth.hasAnyRole(expectedRoles)) {
-      console.warn("AuthRoleGuard → Access denied for roles", expectedRoles);
-      this.toastr.error(
-        "Access denied. You don’t have permission to view this page.",
-        "Permission Denied"
+    // 🔑 2. Role-based authorization
+    const expectedRoles = route.data["roles"] as string[] | undefined;
+    if (expectedRoles?.length) {
+      this.cachedRoles ??= this.auth.getUserRoles();
+      const hasAccess = expectedRoles.some((r) =>
+        this.cachedRoles!.includes(r)
       );
-      return this.router.createUrlTree(["/forbidden"]);
+
+      if (!hasAccess) {
+        this.toastr.showError(
+          "",
+          "Access denied. You don’t have permission to view this page."
+        );
+        return this.router.createUrlTree(["/dashboard"]);
+      }
     }
 
     return true;

@@ -1,5 +1,5 @@
 export class Enums {
-  static readonly token = 'accessToken';
+  static readonly token = 'token';
   static readonly roles = 'userRoles';
   static readonly expiry = 'requestDate';
 

@@ -9,6 +9,8 @@ import { LoginRequestModel, LoginResponseModel, Role } from "./LoginRequestModel
 import { ApiResponse } from "interface/ApiResponse";
 import { Enums } from "Enums/Enums";
 import Swal from "sweetalert2";
+import { Buffer } from 'buffer';
+import { RegisterViewModel } from "interface/Outlet";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -47,6 +49,16 @@ export class AuthService {
       )
     );
   }
+
+  RegisterUser(signupRequest: RegisterViewModel): Observable<ApiResponse<string>> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    
+    return this.http
+      .post<ApiResponse<string>>(`${this.baseUrl}/register`, signupRequest, { headers })
+      .pipe(
+        catchError(this.exception.getErrorHandler) // centralized error handling
+      );
+    }
 
   addRole(model: Role): Observable<ApiResponse<any>> {
     return this.handle(
@@ -98,6 +110,26 @@ export class AuthService {
     }
   }
 
+    GetTokenDate(): boolean {
+    var token = localStorage.getItem('token');
+    if (token != null) {
+      var extractdata = JSON.parse(
+        Buffer.from(token.split('.')[1], 'base64').toString()
+      );
+      console.log("Ext",extractdata);
+      const utcDate = new Date(extractdata.exp * 1000);
+      if (utcDate.getTime() < Date.now()) {
+
+        return true;
+      }
+      return false;
+    } 
+    else 
+    {
+      return false;
+    }
+  }
+
   async refreshAccessToken(refreshToken: string): Promise<string> {
     const token = this.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
@@ -144,6 +176,9 @@ export class AuthService {
     // }
 
    // await this.fetchAndSaveRoles(token);
+
+   this.GetTokenDate();
+   console.log(this.getUserRoles());
   }
 
   getToken(): string | null {
@@ -151,23 +186,44 @@ export class AuthService {
     return this.storage?.getItem(Enums.values.token) ?? null;
   }
 
-  getUserRoles(): string[] {
-    try {
-      const roles = this.storage?.getItem(Enums.values.roles);
-      return roles ? JSON.parse(roles) : [];
-    } catch {
-      return [];
-    }
-  }
+getUserRoles(): string[] {
+  const token = localStorage.getItem('token');
+  if (!token) return [];
 
-  isTokenExpired(): boolean {
-    const expiry = this.storage?.getItem(Enums.values.expiry);
-    if (!expiry) return true;
+  try {
+    // Decode JWT payload
+    const base64Payload = token.split('.')[1];
+    const jsonPayload = JSON.parse(atob(base64Payload));
 
-    const expiryTime = new Date(expiry).getTime();
-    const bufferMs = 30000; // 30 seconds in milliseconds
-    return Date.now() >= (expiryTime - bufferMs);
+    // You can inspect it here
+    console.log('Decoded Token:', jsonPayload);
+
+    // Extract role claim (your token uses full claim URI)
+    const roleClaim =
+      jsonPayload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+
+    // Some tokens may have one or multiple roles
+    if (Array.isArray(roleClaim)) return roleClaim;
+    if (typeof roleClaim === 'string') return [roleClaim];
+
+    return [];
+  } catch (error) {
+    console.error('Error decoding token:', error);
+    return [];
   }
+}
+
+isTokenExpired(): boolean {
+  const token = localStorage.getItem('token');
+  if (!token) return true;
+
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return Date.now() > payload.exp * 1000;
+  } catch {
+    return true;
+  }
+}
 
   isTokenExpiredActual(): boolean {
     const expiry = this.storage?.getItem(Enums.values.expiry);

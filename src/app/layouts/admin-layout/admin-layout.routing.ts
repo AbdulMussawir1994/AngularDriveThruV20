@@ -11,6 +11,7 @@ import { UpgradeComponent } from "../../upgrade/upgrade.component";
 import { OutletComponent } from "app/outlet/outlet.component";
 import { AddOutletComponent } from "app/add-outlet/add-outlet.component";
 import { StoreComponent } from "app/store/store.component";
+import { AuthRoleGuard } from "app/guards/auth.guard";
 //import { LoginComponent } from "app/login/login.component";
 
 export const AdminLayoutRoutes: Routes = [
@@ -57,7 +58,7 @@ export const AdminLayoutRoutes: Routes = [
   //     }]
   // }
   { path: "dashboard", component: DashboardComponent },
-  { path: "user-profile", component: UserProfileComponent },
+  { path: "user-profile", component: UserProfileComponent, canActivate: [AuthRoleGuard], data: { roles: ['Admin'] } },
   { path: "outlet", component: OutletComponent },
   { path: "outlet/add", component: AddOutletComponent },
   { path: "table-list", component: TableListComponent },

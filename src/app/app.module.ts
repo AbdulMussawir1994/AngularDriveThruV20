@@ -17,8 +17,9 @@ import { MatSelectModule } from "@angular/material/select";
 import { CommonModule } from "@angular/common";
 import { ToastrModule } from "ngx-toastr";
 import { LoginComponent } from "./login/login.component";
+import { RegisterComponent } from './register/register.component';
 @NgModule({
-  declarations: [AppComponent, AdminLayoutComponent, LoginComponent],
+  declarations: [AppComponent, AdminLayoutComponent, LoginComponent, RegisterComponent],
   bootstrap: [AppComponent],
   imports: [
     BrowserAnimationsModule,

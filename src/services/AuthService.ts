@@ -1,7 +1,13 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "environments/environment";
-import { Observable, timeout, catchError, firstValueFrom } from "rxjs";
+import {
+  Observable,
+  timeout,
+  catchError,
+  firstValueFrom,
+  Observer,
+} from "rxjs";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import { GlobalExceptionService } from "./GlobalExceptionService";
@@ -14,6 +20,7 @@ import { ApiResponse } from "interface/ApiResponse";
 import { Enums } from "Enums/Enums";
 import Swal from "sweetalert2";
 import { Buffer } from "buffer";
+import { jwtDecode } from "jwt-decode";
 import { RegisterViewModel } from "interface/Outlet";
 
 @Injectable({ providedIn: "root" })
@@ -68,6 +75,22 @@ export class AuthService {
       );
   }
 
+  GetRolesById(userId: string): Observable<ApiResponse<any[]>> {
+    const token = this.getToken();
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http
+      .post<ApiResponse<any[]>>(
+        `${this.baseUrl}/GetRolesById`,
+        { userId }, // 👈 send object payload
+        { headers }
+      )
+      .pipe(catchError(this.exception.getErrorHandler));
+  }
+
   addRole(model: Role): Observable<ApiResponse<any>> {
     return this.handle(
       this.http.post<ApiResponse<any>>(
@@ -75,6 +98,26 @@ export class AuthService {
         model
       )
     );
+  }
+
+  getClaims(): string | null {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+
+    try {
+      const decoded: any = jwtDecode(token);
+      // Optional: check expiration
+      if (decoded.exp * 1000 < Date.now()) {
+     //   console.warn("Token expired");
+        this.logOut();
+        return null;
+      }
+      return decoded.sub; // or decoded.id
+    } catch (e) {
+      console.error("Invalid token");
+      this.logOut();
+      return null;
+    }
   }
 
   login(model: LoginRequestModel): Observable<ApiResponse<LoginResponseModel>> {
@@ -119,7 +162,7 @@ export class AuthService {
       var extractdata = JSON.parse(
         Buffer.from(token.split(".")[1], "base64").toString()
       );
-      console.log("Ext", extractdata);
+      // console.log("Ext", extractdata);
       const utcDate = new Date(extractdata.exp * 1000);
       if (utcDate.getTime() < Date.now()) {
         return true;
@@ -174,11 +217,11 @@ export class AuthService {
     // await this.fetchAndSaveRoles(token);
 
     this.GetTokenDate();
-    console.log(this.getUserRoles());
+   // console.log(this.getUserRoles());
   }
 
   getToken(): string | null {
-    console.log("Token", this.storage?.getItem(Enums.values.token));
+   // console.log("Token", this.storage?.getItem(Enums.values.token));
     return this.storage?.getItem(Enums.values.token) ?? null;
   }
 
@@ -192,7 +235,7 @@ export class AuthService {
       const jsonPayload = JSON.parse(atob(base64Payload));
 
       // You can inspect it here
-      console.log("Decoded Token:", jsonPayload);
+   //   console.log("Decoded Token:", jsonPayload);
 
       // Extract role claim (your token uses full claim URI)
       const roleClaim =

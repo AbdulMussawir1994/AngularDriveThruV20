@@ -58,15 +58,16 @@ export const AdminLayoutRoutes: Routes = [
   //     }]
   // }
   { path: "dashboard", component: DashboardComponent },
-  { path: "user-profile", component: UserProfileComponent, canActivate: [AuthRoleGuard], data: { roles: ['Admin'] } },
-  { path: "outlet", component: OutletComponent },
-  { path: "outlet/add", component: AddOutletComponent },
-  { path: "table-list", component: TableListComponent },
+  { path: "profile", component: UserProfileComponent, canActivate: [AuthRoleGuard], data: { roles: ['Admin'] } },
+  { path: "outlets", component: OutletComponent, canActivate: [AuthRoleGuard] },
+  { path: "outlets/add", component: AddOutletComponent },
+  { path: "table-list", component: TableListComponent, canActivate: [AuthRoleGuard] },
   { path: "typography", component: TypographyComponent },
   { path: "icons", component: IconsComponent },
   { path: "maps", component: MapsComponent },
   { path: "notifications", component: NotificationsComponent },
   { path: "upgrade", component: UpgradeComponent },
-  { path: "store", component: StoreComponent },
+  { path: "store", component: StoreComponent, canActivate: [AuthRoleGuard] },
+    { path: "report", component: TableListComponent, canActivate: [AuthRoleGuard] },
   //{ path: "login", component: LoginComponent },
 ];

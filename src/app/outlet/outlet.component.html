@@ -3,10 +3,13 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card">
-          <div class="card-header d-flex justify-content-between align-items-center" style="background-color: gray;">
-            <h4 class="card-title mb-0" style="color: white;">Outlets</h4>
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+            style="background-color: gray"
+          >
+            <h4 class="card-title mb-0" style="color: white">Outlets</h4>
             <button
-              routerLink="/outlet/add"
+              routerLink="/outlets/add"
               class="btn btn-sm btn-outline-secondary"
               id="addBtn"
             >
@@ -21,12 +24,48 @@
                   <!-- 🔍 Filter Row -->
                   <tr>
                     <th></th>
-                    <th><input class="form-control" placeholder="Search Name" [formControl]="searchForm.controls['name']" /></th>
-                    <th><input class="form-control" placeholder="Search Address" [formControl]="searchForm.controls['address']" /></th>
-                    <th><input class="form-control" placeholder="Search Status" [formControl]="searchForm.controls['status']" /></th>
-                    <th><input class="form-control" placeholder="Search Delivery" [formControl]="searchForm.controls['delivery']" /></th>
-                    <th><input class="form-control" placeholder="Search Pickup" [formControl]="searchForm.controls['pickup']" /></th>
-                    <th><input class="form-control" placeholder="Search Dine-In" [formControl]="searchForm.controls['dinein']" /></th>
+                    <th>
+                      <input
+                        class="form-control"
+                        placeholder="Search Name"
+                        [formControl]="searchForm.controls['name']"
+                      />
+                    </th>
+                    <th>
+                      <input
+                        class="form-control"
+                        placeholder="Search Address"
+                        [formControl]="searchForm.controls['address']"
+                      />
+                    </th>
+                    <th>
+                      <input
+                        class="form-control"
+                        placeholder="Search Status"
+                        [formControl]="searchForm.controls['status']"
+                      />
+                    </th>
+                    <th>
+                      <input
+                        class="form-control"
+                        placeholder="Search Delivery"
+                        [formControl]="searchForm.controls['delivery']"
+                      />
+                    </th>
+                    <th>
+                      <input
+                        class="form-control"
+                        placeholder="Search Pickup"
+                        [formControl]="searchForm.controls['pickup']"
+                      />
+                    </th>
+                    <th>
+                      <input
+                        class="form-control"
+                        placeholder="Search Dine-In"
+                        [formControl]="searchForm.controls['dinein']"
+                      />
+                    </th>
                   </tr>
 
                   <tr>
@@ -42,22 +81,34 @@
 
                 <tbody>
                   @for (item of paginatedOutlets(); track item.id) {
-                    <tr>
-                      <td>
-                        <a [routerLink]="['/outlet', 'edit', item.id]" class="btn btn-sm btn-outline-primary me-2" style="margin-right: 10px;">Edit</a>
-                        <button (click)="deleteOutlet(item.id)" class="btn btn-sm btn-outline-danger">Delete</button>
-                      </td>
-                      <td>{{ item.name }}</td>
-                      <td>{{ item.address }}</td>
-                      <td>{{ item.status }}</td>
-                      <td>{{ item.delivery }}</td>
-                      <td>{{ item.pickup }}</td>
-                      <td>{{ item.dinein }}</td>
-                    </tr>
+                  <tr>
+                    <td>
+                      <a
+                        [routerLink]="['/outlet', 'edit', item.id]"
+                        class="btn btn-sm btn-outline-primary me-2"
+                        style="margin-right: 10px"
+                        >Edit</a
+                      >
+                      <button
+                        (click)="deleteOutlet(item.id)"
+                        class="btn btn-sm btn-outline-danger"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.address }}</td>
+                    <td>{{ item.status ? "True": "False" }}</td>
+                    <td>{{ item.delivery ? "True": "False" }}</td>
+                    <td>{{ item.pickup ? "True": "False" }}</td>
+                    <td>{{ item.dine ? "True": "False" }}</td>
+                  </tr>
                   } @empty {
-                    <tr>
-                      <td colspan="7" class="text-center text-muted">No outlets found.</td>
-                    </tr>
+                  <tr>
+                    <td colspan="7" class="text-center text-muted">
+                      No outlets found.
+                    </td>
+                  </tr>
                   }
                 </tbody>
               </table>
@@ -65,9 +116,7 @@
 
             <!-- 📄 Pagination Controls -->
             <div class="d-flex justify-content-between align-items-center mt-3">
-              <div>
-                Page {{ currentPage() }} / {{ totalPages() }}
-              </div>
+              <div>Page {{ currentPage() }} / {{ totalPages() }}</div>
               <div>
                 <button
                   class="btn btn-outline-secondary btn-sm me-2"
@@ -85,7 +134,6 @@
                 </button>
               </div>
             </div>
-
           </div>
         </div>
       </div>

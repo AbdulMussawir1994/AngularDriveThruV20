@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router, NavigationEnd } from "@angular/router";
 import { filter } from "rxjs/operators";
 import { AuthService } from "services/AuthService";
+import { ApiResponse } from "interface/ApiResponse";
 
 declare const $: any;
 
@@ -12,46 +13,6 @@ interface RouteInfo {
   class?: string;
   children?: RouteInfo[];
 }
-
-export const ROUTES: RouteInfo[] = [
-  { path: "/dashboard", title: "Dashboard", icon: "dashboard", class: "" },
-  { path: "/outlet", title: "Outlet Management", icon: "store", class: "" },
-  // {
-  //   title: "Outlet Management",
-  //   icon: "arrow_drop_down_circle",
-  //   class: "",
-  //   children: [
-  //     { path: "/outlet", title: "Outlet List", icon: "list", class: "" },
-  //     { path: "/outlet/add", title: "Add Outlet", icon: "add", class: "" },
-  //     {
-  //       path: "/outlet/email",
-  //       title: "Email Outlets",
-  //       icon: "email",
-  //       class: "",
-  //     },
-  //   ],
-  // },
-  //{ path: "/store", title: "Store", icon: "store", class: "" },
-  { path: "/user-profile", title: "User Profile", icon: "person", class: "" },
-  {
-    path: "/table-list",
-    title: "Reports",
-    icon: "content_paste",
-    class: "",
-  },
-  // {
-  //   path: "/notifications",
-  //   title: "Notifications",
-  //   icon: "notifications",
-  //   class: "",
-  // },
-  // {
-  //   path: "/upgrade",
-  //   title: "Upgrade to PRO",
-  //   icon: "unarchive",
-  //   class: "active-pro",
-  // },
-];
 
 @Component({
   selector: "app-sidebar",
@@ -67,27 +28,56 @@ export class SidebarComponent implements OnInit {
   constructor(private router: Router, private Auth: AuthService) {}
 
   ngOnInit() {
-    this.menuItems = ROUTES;
+    this.FetchRoles();
 
-    // ✅ Automatically close submenu when navigating elsewhere
+    // ✅ Highlight menu on route change
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: any) => {
         const url = event.urlAfterRedirects;
-
-        // Highlight correct submenu if user directly navigates via URL
         const parent = this.menuItems.find((item) =>
           item.children?.some((child) => url.startsWith(child.path!))
         );
         this.expanded = parent ? parent.title : null;
-
-        // Highlight only the active submenu item
         this.activeChild = url;
       });
   }
 
+  // ✅ Dynamic roles fetch
+  FetchRoles(): void {
+    const userId = this.Auth.getClaims();
+
+    if (!userId) {
+      console.warn("⚠️ No user ID found in token — skipping FetchRoles()");
+      return;
+    }
+
+    this.Auth.GetRolesById(userId).subscribe({
+      next: (res: ApiResponse<any[]>) => {
+      //  console.log("✅ Roles fetched successfully:", res);
+
+        if (res?.data && Array.isArray(res.data)) {
+          // Map roles → menu items
+          this.menuItems = res.data
+            .filter((r) => r.allow) // show only allowed
+            .sort((a, b) => a.orderNum - b.orderNum)
+            .map((r) => ({
+              path: r.path,
+              title: r.entityCode,
+              icon: r.icon,
+              class: "",
+            }));
+        } else {
+          console.warn("⚠️ No valid menu data found in API response");
+        }
+      },
+      error: (err) => {
+        console.error("❌ Error fetching roles:", err);
+      },
+    });
+  }
+
   toggleSubmenu(title: string): void {
-    // Toggle submenu open/close
     this.expanded = this.expanded === title ? null : title;
   }
 
@@ -99,7 +89,7 @@ export class SidebarComponent implements OnInit {
     return $(window).width() <= 991;
   }
 
-  LogOut(): void{
+  LogOut(): void {
     this.Auth.logOut();
   }
 }

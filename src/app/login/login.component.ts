@@ -73,7 +73,7 @@ private authService = inject(AuthService);
       .pipe(take(1))
       .subscribe({
         next: async ({ status, data, message }) => {
-          console.log("Login Res", data)
+         // console.log("Login Res", data)
           if (status) {
             debugger
             await this.authService.saveSession(data);
@@ -88,8 +88,8 @@ private authService = inject(AuthService);
             //   showConfirmButton: false,
             //   position: 'top-end',
             // });
-            console.log("Wroking");
-            this.router.navigateByUrl('/outlet');
+           // console.log("JWT", this.authService.getClaims());
+            this.router.navigateByUrl('/outlets');
           } else {
             // this.toastr.error(status.statusMessage, 'Login Failed');
             this.toastAlert.showError('Login Failed', message);

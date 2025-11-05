@@ -6,6 +6,8 @@ import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.compon
 import { LoginComponent } from "./login/login.component";
 import { AuthRoleGuard } from "./guards/auth.guard";
 import { RegisterComponent } from "./register/register.component";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { AuthInterceptor } from "interceptor/AuthInterceptor";
 
 const routes: Routes = [
   // Public routes first
@@ -54,5 +56,8 @@ const routes: Routes = [
 @NgModule({
   imports: [CommonModule, BrowserModule, RouterModule.forRoot(routes)],
   exports: [RouterModule],
+   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ]
 })
 export class AppRoutingModule {}

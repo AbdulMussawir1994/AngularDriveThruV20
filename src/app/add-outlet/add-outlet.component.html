@@ -1,382 +1,386 @@
 <div class="main-content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="card">
-        <div
-          class="card-header d-flex justify-content-between align-items-center"
-          style="background-color: gray"
-        >
-          <strong
-            ><b
-              ><h4 class="card-title mb-0" style="color: white">
-                Add New Outlet
-              </h4></b
-            ></strong
+  <div class="small-text">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="card">
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+            style="background-color: gray"
           >
+            <strong
+              ><b
+                ><h4 class="card-title mb-0" style="color: white">
+                  Add New Outlet
+                </h4></b
+              ></strong
+            >
+          </div>
+
+          <div class="outlet-card">
+            <form [formGroup]="form" (ngSubmit)="submitOutlet()">
+              <div class="form-grid">
+                <!-- Outlet Name -->
+                <mat-form-field appearance="outline">
+                  <mat-label>Outlet Name</mat-label>
+                  <input
+                    matInput
+                    formControlName="outletName"
+                    placeholder="Enter outlet name"
+                  />
+                  <mat-error
+                    *ngIf="getControl('outletName')?.hasError('required')"
+                  >
+                    Outlet name is required
+                  </mat-error>
+                  <mat-error
+                    *ngIf="getControl('outletName')?.hasError('minlength')"
+                  >
+                    Minimum 3 characters required
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- Arabic Outlet Name -->
+                <mat-form-field appearance="outline">
+                  <mat-label>Arabic Outlet Name</mat-label>
+                  <input
+                    matInput
+                    formControlName="arabicOutletName"
+                    placeholder="Enter Arabic outlet name"
+                  />
+                  <mat-error
+                    *ngIf="getControl('arabicOutletName')?.hasError('required')"
+                  >
+                    Arabic outlet name is required
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- Outlet Number -->
+                <mat-form-field appearance="outline">
+                  <mat-label>Outlet No.</mat-label>
+                  <input
+                    matInput
+                    type="number"
+                    formControlName="outletNo"
+                    placeholder="Enter outlet number"
+                  />
+                  <mat-error *ngIf="getControl('outletNo')?.hasError('min')">
+                    Value must be greater than 0
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- Currency -->
+                <mat-form-field appearance="outline">
+                  <mat-label>Currency</mat-label>
+                  <mat-select formControlName="currency">
+                    <mat-option value="1">SAR</mat-option>
+                    <mat-option value="2">PKR</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <!-- Email -->
+                <mat-form-field appearance="outline">
+                  <mat-label>Email</mat-label>
+                  <input
+                    matInput
+                    type="email"
+                    formControlName="email"
+                    placeholder="Enter email"
+                  />
+                  <mat-error *ngIf="getControl('email')?.hasError('email')">
+                    Enter a valid email
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- Phone -->
+                <mat-form-field appearance="outline">
+                  <mat-label>Phone</mat-label>
+                  <input
+                    matInput
+                    type="tel"
+                    formControlName="phone"
+                    placeholder="Enter phone number"
+                  />
+                  <mat-error *ngIf="getControl('phone')?.hasError('pattern')">
+                    Enter a valid phone number
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- Address (Full Width) -->
+                <mat-form-field class="full-width" appearance="outline">
+                  <mat-label>Address</mat-label>
+                  <textarea
+                    matInput
+                    rows="2"
+                    formControlName="address"
+                    placeholder="Enter address"
+                    style="resize: none"
+                  ></textarea>
+                  <mat-error
+                    *ngIf="getControl('address')?.hasError('required')"
+                  >
+                    Address is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!-- Buttons -->
+              <div class="actions">
+                <button
+                  mat-flat-button
+                  color="primary"
+                  type="submit"
+                  [disabled]="form.invalid || isSubmitting"
+                >
+                  {{ isSubmitting ? "Saving..." : "Save" }}
+                </button>
+                <button
+                  mat-stroked-button
+                  color="warn"
+                  type="button"
+                  (click)="cancel()"
+                >
+                  Back
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-
-        <div class="outlet-card">
-          <form [formGroup]="form" (ngSubmit)="submitOutlet()">
-            <div class="form-grid">
-              <!-- Outlet Name -->
-              <mat-form-field appearance="outline">
-                <mat-label>Outlet Name</mat-label>
-                <input
-                  matInput
-                  formControlName="outletName"
-                  placeholder="Enter outlet name"
-                />
-                <mat-error
-                  *ngIf="getControl('outletName')?.hasError('required')"
-                >
-                  Outlet name is required
-                </mat-error>
-                <mat-error
-                  *ngIf="getControl('outletName')?.hasError('minlength')"
-                >
-                  Minimum 3 characters required
-                </mat-error>
-              </mat-form-field>
-
-              <!-- Arabic Outlet Name -->
-              <mat-form-field appearance="outline">
-                <mat-label>Arabic Outlet Name</mat-label>
-                <input
-                  matInput
-                  formControlName="arabicOutletName"
-                  placeholder="Enter Arabic outlet name"
-                />
-                <mat-error
-                  *ngIf="getControl('arabicOutletName')?.hasError('required')"
-                >
-                  Arabic outlet name is required
-                </mat-error>
-              </mat-form-field>
-
-              <!-- Outlet Number -->
-              <mat-form-field appearance="outline">
-                <mat-label>Outlet No.</mat-label>
-                <input
-                  matInput
-                  type="number"
-                  formControlName="outletNo"
-                  placeholder="Enter outlet number"
-                />
-                <mat-error *ngIf="getControl('outletNo')?.hasError('min')">
-                  Value must be greater than 0
-                </mat-error>
-              </mat-form-field>
-
-              <!-- Currency -->
-              <mat-form-field appearance="outline">
-                <mat-label>Currency</mat-label>
-                <mat-select formControlName="currency">
-                  <mat-option value="1">SAR</mat-option>
-                  <mat-option value="2">PKR</mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <!-- Email -->
-              <mat-form-field appearance="outline">
-                <mat-label>Email</mat-label>
-                <input
-                  matInput
-                  type="email"
-                  formControlName="email"
-                  placeholder="Enter email"
-                />
-                <mat-error *ngIf="getControl('email')?.hasError('email')">
-                  Enter a valid email
-                </mat-error>
-              </mat-form-field>
-
-              <!-- Phone -->
-              <mat-form-field appearance="outline">
-                <mat-label>Phone</mat-label>
-                <input
-                  matInput
-                  type="tel"
-                  formControlName="phone"
-                  placeholder="Enter phone number"
-                />
-                <mat-error *ngIf="getControl('phone')?.hasError('pattern')">
-                  Enter a valid phone number
-                </mat-error>
-              </mat-form-field>
-
-              <!-- Address (Full Width) -->
-              <mat-form-field class="full-width" appearance="outline">
-                <mat-label>Address</mat-label>
-                <textarea
-                  matInput
-                  rows="2"
-                  formControlName="address"
-                  placeholder="Enter address"
-                  style="resize: none"
-                ></textarea>
-                <mat-error *ngIf="getControl('address')?.hasError('required')">
-                  Address is required
-                </mat-error>
-              </mat-form-field>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div
+              class="card-header d-flex justify-content-between align-items-center"
+              style="background-color: gray"
+            >
+              <h4 class="card-title mb-0" style="color: white">
+                Store Information
+              </h4>
             </div>
 
-            <!-- Buttons -->
-            <div class="actions">
-              <button
-                mat-flat-button
-                color="primary"
-                type="submit"
-                [disabled]="form.invalid || isSubmitting"
-              >
-                {{ isSubmitting ? "Saving..." : "Save" }}
-              </button>
-              <button
-                mat-stroked-button
-                color="warn"
-                type="button"
-                (click)="cancel()"
-              >
-                Back
-              </button>
+            <div class="card-body">
+              <mat-card>
+                <mat-card-content>
+                  <div class="row main-tab">
+                    <!-- Outlet Name -->
+                    <div class="col-md-4">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Store Number</mat-label>
+                        <input
+                          matInput
+                          [value]="outlet?.id == 0 ? 001 : outlet.id"
+                          readonly
+                        />
+                      </mat-form-field>
+                    </div>
+
+                    <!-- Outlet Info -->
+                    <div class="col-md-4">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Store Name</mat-label>
+                        <input
+                          matInput
+                          [value]="outlet?.name ?? 'Main Street Location'"
+                          readonly
+                        />
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="row main-tab">
+                    <!-- Outlet Name -->
+                    <div class="col-md-8">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Address</mat-label>
+                        <input matInput [value]="outlet?.address" readonly />
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="row main-tab">
+                    <!-- Outlet Name -->
+                    <div class="col-md-4">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Phone</mat-label>
+                        <input matInput [value]="outlet?.phone" readonly />
+                      </mat-form-field>
+                    </div>
+
+                    <!-- Outlet Info -->
+                    <div class="col-md-4">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Time Zone</mat-label>
+                        <input matInput [value]="outlet?.timeZone" readonly />
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
             </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div
-            class="card-header d-flex justify-content-between align-items-center"
-            style="background-color: gray"
-          >
-            <h4 class="card-title mb-0" style="color: white"  >
-              Store Information
-            </h4>
-          </div>
-
-          <div class="card-body">
-            <mat-card>
-              <mat-card-content>
-                <div class="row main-tab">
-                  <!-- Outlet Name -->
-                  <div class="col-md-4">
-                    <mat-form-field appearance="outline" class="w-100">
-                      <mat-label>Store Number</mat-label>
-                      <input
-                        matInput
-                        [value]="outlet?.id == 0 ? 001 : outlet.id"
-                        readonly
-                      />
-                    </mat-form-field>
-                  </div>
-
-                  <!-- Outlet Info -->
-                  <div class="col-md-4">
-                    <mat-form-field appearance="outline" class="w-100">
-                      <mat-label>Store Name</mat-label>
-                      <input
-                        matInput
-                        [value]="outlet?.name ?? 'Main Street Location'"
-                        readonly
-                      />
-                    </mat-form-field>
-                  </div>
-                </div>
-
-                <div class="row main-tab">
-                  <!-- Outlet Name -->
-                  <div class="col-md-8">
-                    <mat-form-field appearance="outline" class="w-100">
-                      <mat-label>Address</mat-label>
-                      <input matInput [value]="outlet?.address" readonly />
-                    </mat-form-field>
-                  </div>
-                </div>
-
-                <div class="row main-tab">
-                  <!-- Outlet Name -->
-                  <div class="col-md-4">
-                    <mat-form-field appearance="outline" class="w-100">
-                      <mat-label>Phone</mat-label>
-                      <input matInput [value]="outlet?.phone" readonly />
-                    </mat-form-field>
-                  </div>
-
-                  <!-- Outlet Info -->
-                  <div class="col-md-4">
-                    <mat-form-field appearance="outline" class="w-100">
-                      <mat-label>Time Zone</mat-label>
-                      <input matInput [value]="outlet?.timeZone" readonly />
-                    </mat-form-field>
-                  </div>
-                </div>
-              </mat-card-content>
-            </mat-card>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div
-            class="card-header d-flex justify-content-between align-items-center"
-            style="background-color: gray"
-          >
-            <h4 class="card-title mb-0" style="color: white">
-              Store Operating Hours
-            </h4>
-          </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div
+              class="card-header d-flex justify-content-between align-items-center"
+              style="background-color: gray"
+            >
+              <h4 class="card-title mb-0" style="color: white">
+                Store Operating Hours
+              </h4>
+            </div>
 
-          <div class="card-body">
-            <mat-card>
-              <mat-card-content>
-                <div class="row main-tab">
-                  <!-- Outlet Name -->
-                  <div class="col-md-4">
-                    <mat-form-field appearance="outline" class="w-100">
-                      <mat-label>Opening Time </mat-label>
-                      <input
-                        matInput
-                        [value]="outlet?.openingTime | date : 'shortTime'"
-                        readonly
-                      />
-                    </mat-form-field>
+            <div class="card-body">
+              <mat-card>
+                <mat-card-content>
+                  <div class="row main-tab">
+                    <!-- Outlet Name -->
+                    <div class="col-md-4">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Opening Time </mat-label>
+                        <input
+                          matInput
+                          [value]="outlet?.openingTime | date : 'shortTime'"
+                          readonly
+                        />
+                      </mat-form-field>
+                    </div>
+
+                    <!-- Outlet Info -->
+                    <div class="col-md-4">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Closing Time</mat-label>
+                        <input
+                          matInput
+                          [value]="outlet?.closingTime | date : 'shortTime'"
+                          readonly
+                        />
+                      </mat-form-field>
+                    </div>
                   </div>
 
-                  <!-- Outlet Info -->
-                  <div class="col-md-4">
-                    <mat-form-field appearance="outline" class="w-100">
-                      <mat-label>Closing Time</mat-label>
-                      <input
-                        matInput
-                        [value]="outlet?.closingTime | date : 'shortTime'"
-                        readonly
-                      />
-                    </mat-form-field>
+                  <div class="row main-tab">
+                    <!-- Goals Summary -->
+                    <div class="col-md-8">
+                      <mat-form-field
+                        appearance="outline"
+                        class="w-100 long-text-field"
+                      >
+                        <mat-label>Goals Summary</mat-label>
+                        <textarea
+                          matInput
+                          [value]="'Store Hours 06:00 - 23:00'"
+                          readonly
+                          rows="4"
+                        ></textarea>
+                      </mat-form-field>
+                    </div>
                   </div>
-                </div>
-
-                <div class="row main-tab">
-                  <!-- Goals Summary -->
-                  <div class="col-md-8">
-                    <mat-form-field
-                      appearance="outline"
-                      class="w-100 long-text-field"
-                    >
-                      <mat-label>Goals Summary</mat-label>
-                      <textarea
-                        matInput
-                        [value]="'Store Hours 06:00 - 23:00'"
-                        readonly
-                        rows="4"
-                      ></textarea>
-                    </mat-form-field>
-                  </div>
-                </div>
-              </mat-card-content>
-            </mat-card>
+                </mat-card-content>
+              </mat-card>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div
-            class="card-header d-flex justify-content-between align-items-center"
-            style="background-color: gray"
-          >
-            <h4 class="card-title mb-0" style="color: white">
-              DayPart Configuration
-            </h4>
-          </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div
+              class="card-header d-flex justify-content-between align-items-center"
+              style="background-color: gray"
+            >
+              <h4 class="card-title mb-0" style="color: white">
+                DayPart Configuration
+              </h4>
+            </div>
 
-          <div class="card-body">
-            <mat-card>
-              <mat-card-content>
-                <div class="row main-tab">
-                  <!-- Outlet Name -->
-                  <div class="col-md-4">
-                    <mat-form-field appearance="outline" class="w-100">
-                      <mat-label>Breakfast Start </mat-label>
-                      <input
-                        matInput
-                        [value]="outlet?.breakFastStart | date : 'shortTime'"
-                        readonly
-                      />
-                    </mat-form-field>
+            <div class="card-body">
+              <mat-card>
+                <mat-card-content>
+                  <div class="row main-tab">
+                    <!-- Outlet Name -->
+                    <div class="col-md-4">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Breakfast Start </mat-label>
+                        <input
+                          matInput
+                          [value]="outlet?.breakFastStart | date : 'shortTime'"
+                          readonly
+                        />
+                      </mat-form-field>
+                    </div>
+
+                    <!-- Outlet Info -->
+                    <div class="col-md-4">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Breakfast End </mat-label>
+                        <input
+                          matInput
+                          [value]="outlet?.breakFastEnd | date : 'shortTime'"
+                          readonly
+                        />
+                      </mat-form-field>
+                    </div>
                   </div>
 
-                  <!-- Outlet Info -->
-                  <div class="col-md-4">
-                    <mat-form-field appearance="outline" class="w-100">
-                      <mat-label>Breakfast End </mat-label>
-                      <input
-                        matInput
-                        [value]="outlet?.breakFastEnd | date : 'shortTime'"
-                        readonly
-                      />
-                    </mat-form-field>
-                  </div>
-                </div>
+                  <div class="row main-tab">
+                    <!-- Outlet Name -->
+                    <div class="col-md-4">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Lunch Start </mat-label>
+                        <input
+                          matInput
+                          [value]="outlet?.lunchStart | date : 'shortTime'"
+                          readonly
+                        />
+                      </mat-form-field>
+                    </div>
 
-                <div class="row main-tab">
-                  <!-- Outlet Name -->
-                  <div class="col-md-4">
-                    <mat-form-field appearance="outline" class="w-100">
-                      <mat-label>Lunch Start </mat-label>
-                      <input
-                        matInput
-                        [value]="outlet?.lunchStart | date : 'shortTime'"
-                        readonly
-                      />
-                    </mat-form-field>
-                  </div>
-
-                  <!-- Outlet Info -->
-                  <div class="col-md-4">
-                    <mat-form-field appearance="outline" class="w-100">
-                      <mat-label>Lunch End </mat-label>
-                      <input
-                        matInput
-                        [value]="outlet?.lunchEnd | date : 'shortTime'"
-                        readonly
-                      />
-                    </mat-form-field>
-                  </div>
-                </div>
-
-                <div class="row main-tab">
-                  <!-- Outlet Name -->
-                  <div class="col-md-4">
-                    <mat-form-field appearance="outline" class="w-100">
-                      <mat-label>Dinner Start </mat-label>
-                      <input
-                        matInput
-                        [value]="outlet?.dinnerStart | date : 'shortTime'"
-                        readonly
-                      />
-                    </mat-form-field>
+                    <!-- Outlet Info -->
+                    <div class="col-md-4">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Lunch End </mat-label>
+                        <input
+                          matInput
+                          [value]="outlet?.lunchEnd | date : 'shortTime'"
+                          readonly
+                        />
+                      </mat-form-field>
+                    </div>
                   </div>
 
-                  <!-- Outlet Info -->
-                  <div class="col-md-4">
-                    <mat-form-field appearance="outline" class="w-100">
-                      <mat-label>Dinner End </mat-label>
-                      <input
-                        matInput
-                        [value]="outlet?.dinnerEnd | date : 'shortTime'"
-                        readonly
-                      />
-                    </mat-form-field>
+                  <div class="row main-tab">
+                    <!-- Outlet Name -->
+                    <div class="col-md-4">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Dinner Start </mat-label>
+                        <input
+                          matInput
+                          [value]="outlet?.dinnerStart | date : 'shortTime'"
+                          readonly
+                        />
+                      </mat-form-field>
+                    </div>
+
+                    <!-- Outlet Info -->
+                    <div class="col-md-4">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Dinner End </mat-label>
+                        <input
+                          matInput
+                          [value]="outlet?.dinnerEnd | date : 'shortTime'"
+                          readonly
+                        />
+                      </mat-form-field>
+                    </div>
                   </div>
-                </div>
-              </mat-card-content>
-            </mat-card>
+                </mat-card-content>
+              </mat-card>
+            </div>
           </div>
         </div>
       </div>

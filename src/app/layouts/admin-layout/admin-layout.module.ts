@@ -1,26 +1,27 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AdminLayoutRoutes } from './admin-layout.routing';
-import { DashboardComponent } from '../../dashboard/dashboard.component';
-import { UserProfileComponent } from '../../user-profile/user-profile.component';
-import { TableListComponent } from '../../table-list/table-list.component';
-import { TypographyComponent } from '../../typography/typography.component';
-import { IconsComponent } from '../../icons/icons.component';
-import { MapsComponent } from '../../maps/maps.component';
-import { NotificationsComponent } from '../../notifications/notifications.component';
-import { UpgradeComponent } from '../../upgrade/upgrade.component';
-import {MatButtonModule} from '@angular/material/button';
-import {MatInputModule} from '@angular/material/input';
-import {MatRippleModule} from '@angular/material/core';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatSelectModule} from '@angular/material/select';
-import { OutletComponent } from 'app/outlet/outlet.component';
-import { AddOutletComponent } from 'app/add-outlet/add-outlet.component';
-import { StoreComponent } from 'app/store/store.component';
-import { MatCardModule } from '@angular/material/card';
+import { NgModule } from "@angular/core";
+import { RouterModule } from "@angular/router";
+import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { AdminLayoutRoutes } from "./admin-layout.routing";
+import { DashboardComponent } from "../../dashboard/dashboard.component";
+import { UserProfileComponent } from "../../user-profile/user-profile.component";
+import { TableListComponent } from "../../table-list/table-list.component";
+import { TypographyComponent } from "../../typography/typography.component";
+import { IconsComponent } from "../../icons/icons.component";
+import { MapsComponent } from "../../maps/maps.component";
+import { NotificationsComponent } from "../../notifications/notifications.component";
+import { UpgradeComponent } from "../../upgrade/upgrade.component";
+import { MatButtonModule } from "@angular/material/button";
+import { MatInputModule } from "@angular/material/input";
+import { MatRippleModule } from "@angular/material/core";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatSelectModule } from "@angular/material/select";
+import { OutletComponent } from "app/outlet/outlet.component";
+import { AddOutletComponent } from "app/add-outlet/add-outlet.component";
+import { StoreComponent } from "app/store/store.component";
+import { MatCardModule } from "@angular/material/card";
+import { ProperCasePipe } from "interceptor/propercase.pipe";
 
 @NgModule({
   imports: [
@@ -49,8 +50,8 @@ import { MatCardModule } from '@angular/material/card';
     MapsComponent,
     NotificationsComponent,
     UpgradeComponent,
-    StoreComponent
-  ]
+    StoreComponent,
+    ProperCasePipe, // ✅ Add pipe here
+  ],
 })
-
 export class AdminLayoutModule {}

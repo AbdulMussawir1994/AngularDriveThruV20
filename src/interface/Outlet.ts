@@ -2,10 +2,10 @@ export interface Outlet {
   id?: number;
   name: string;
   address: string;
-  status: string;
-  delivery: string;
-  pickup: string;
-  dinein: string;
+  status: boolean;
+  delivery: boolean;
+  pickup: boolean;
+  dinein: boolean;
   phone?: string;
   timeZone?: string;
   openingTime?: Date | null;

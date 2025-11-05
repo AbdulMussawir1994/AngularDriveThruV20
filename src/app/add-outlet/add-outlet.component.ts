@@ -26,10 +26,10 @@ export class AddOutletComponent implements OnInit {
     id: 0,
     name: "Main Street Location",
     address: "123 Main Street, City, ST 123456",
-    status: "",
-    delivery: "",
-    pickup: "",
-    dinein: "",
+    status: false,
+    delivery: false,
+    pickup: false,
+    dinein: false,
     phone: "(555) 123-4567",
     timeZone: "Eastern Time",
     openingTime: new Date(new Date().setHours(17, 0, 0, 0)), // ✅ 5:00 PM today
@@ -73,12 +73,12 @@ export class AddOutletComponent implements OnInit {
     setTimeout(() => {
       alert("Form submitted successfully ✅");
       this.isSubmitting = false;
-      this.router.navigate(["/outlet"]);
+      this.router.navigate(["/outlets"]);
     }, 1000);
   }
 
   cancel(): void {
-    this.router.navigate(["/outlet"]);
+    this.router.navigate(["/outlets"]);
   }
 
   // Small helper for validation messages

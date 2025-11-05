@@ -9,16 +9,23 @@ import { RegisterComponent } from "./register/register.component";
 
 const routes: Routes = [
   // Public routes first
+  // Default redirect
+  {
+    path: "",
+    redirectTo: "login",
+    pathMatch: "full",
+  },
+
   {
     path: "login",
     component: LoginComponent,
     title: "Login Page",
   },
-  {
-    path: "register",
-    component: RegisterComponent,
-    title: "Register Page",
-  },
+  // {
+  //   path: "register",
+  //   component: RegisterComponent,
+  //   title: "Register Page",
+  // },
 
   // Protected admin layout
   {
@@ -37,20 +44,12 @@ const routes: Routes = [
     ],
   },
 
-  // Default redirect
-  {
-    path: "",
-    redirectTo: "login",
-    pathMatch: "full",
-  },
-
   // Catch-all route (unknown)
   {
     path: "**",
     redirectTo: "login",
   },
 ];
-
 
 @NgModule({
   imports: [CommonModule, BrowserModule, RouterModule.forRoot(routes)],

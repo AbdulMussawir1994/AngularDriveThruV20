@@ -2,17 +2,21 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "environments/environment";
 import { Observable, timeout, catchError, firstValueFrom } from "rxjs";
-import { ToastrService } from 'ngx-toastr';
+import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import { GlobalExceptionService } from "./GlobalExceptionService";
-import { LoginRequestModel, LoginResponseModel, Role } from "./LoginRequestModel";
+import {
+  LoginRequestModel,
+  LoginResponseModel,
+  Role,
+} from "./LoginRequestModel";
 import { ApiResponse } from "interface/ApiResponse";
 import { Enums } from "Enums/Enums";
 import Swal from "sweetalert2";
-import { Buffer } from 'buffer';
+import { Buffer } from "buffer";
 import { RegisterViewModel } from "interface/Outlet";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class AuthService {
   private readonly baseUrl = environment.BaseApiUrl;
   private readonly timeoutMs = 10000;
@@ -25,11 +29,11 @@ export class AuthService {
   ) {}
 
   private get storage(): Storage | null {
-    return typeof window !== 'undefined' ? localStorage : null;
+    return typeof window !== "undefined" ? localStorage : null;
   }
 
   private get session(): Storage | null {
-    return typeof window !== 'undefined' ? sessionStorage : null;
+    return typeof window !== "undefined" ? sessionStorage : null;
   }
 
   private handle<T>(obs: Observable<T>): Observable<T> {
@@ -50,15 +54,19 @@ export class AuthService {
     );
   }
 
-  RegisterUser(signupRequest: RegisterViewModel): Observable<ApiResponse<string>> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    
+  RegisterUser(
+    signupRequest: RegisterViewModel
+  ): Observable<ApiResponse<string>> {
+    const headers = new HttpHeaders({ "Content-Type": "application/json" });
+
     return this.http
-      .post<ApiResponse<string>>(`${this.baseUrl}/register`, signupRequest, { headers })
+      .post<ApiResponse<string>>(`${this.baseUrl}/register`, signupRequest, {
+        headers,
+      })
       .pipe(
         catchError(this.exception.getErrorHandler) // centralized error handling
       );
-    }
+  }
 
   addRole(model: Role): Observable<ApiResponse<any>> {
     return this.handle(
@@ -82,15 +90,13 @@ export class AuthService {
   }
 
   async saveSession(response: LoginResponseModel): Promise<void> {
-    await this.saveToken(
-      response.token,
-    );
+    await this.saveToken(response.token);
   }
 
   private async fetchAndSaveRoles(token: string): Promise<void> {
     if (!this.storage) return;
 
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
     try {
       const result = await firstValueFrom(
         this.http.get<ApiResponse<string[]>>(
@@ -100,39 +106,33 @@ export class AuthService {
       );
 
       if (result.status && Array.isArray(result.data)) {
-        this.storage.setItem(
-          Enums.values.roles,
-          JSON.stringify(result.data)
-        );
+        this.storage.setItem(Enums.values.roles, JSON.stringify(result.data));
       }
     } catch (err) {
-      console.warn('[AuthService] Failed to fetch roles:', err);
+      console.warn("[AuthService] Failed to fetch roles:", err);
     }
   }
 
-    GetTokenDate(): boolean {
-    var token = localStorage.getItem('token');
+  GetTokenDate(): boolean {
+    var token = localStorage.getItem("token");
     if (token != null) {
       var extractdata = JSON.parse(
-        Buffer.from(token.split('.')[1], 'base64').toString()
+        Buffer.from(token.split(".")[1], "base64").toString()
       );
-      console.log("Ext",extractdata);
+      console.log("Ext", extractdata);
       const utcDate = new Date(extractdata.exp * 1000);
       if (utcDate.getTime() < Date.now()) {
-
         return true;
       }
       return false;
-    } 
-    else 
-    {
+    } else {
       return false;
     }
   }
 
   async refreshAccessToken(refreshToken: string): Promise<string> {
     const token = this.getToken();
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
     console.log("Refresh");
     try {
       const res = await firstValueFrom(
@@ -149,9 +149,7 @@ export class AuthService {
       );
 
       if (res.status && res.data) {
-        await this.saveToken(
-          res.data.token,
-        );
+        await this.saveToken(res.data.token);
         return res.data.token;
       }
 
@@ -163,9 +161,7 @@ export class AuthService {
     }
   }
 
-  async saveToken(
-    token: string,
-  ): Promise<void> {
+  async saveToken(token: string): Promise<void> {
     if (!this.storage) return;
 
     this.storage.setItem(Enums.values.token, token);
@@ -175,55 +171,57 @@ export class AuthService {
     //   this.storage.setItem(Enums.values.expiry, expiryTime.toISOString());
     // }
 
-   // await this.fetchAndSaveRoles(token);
+    // await this.fetchAndSaveRoles(token);
 
-   this.GetTokenDate();
-   console.log(this.getUserRoles());
+    this.GetTokenDate();
+    console.log(this.getUserRoles());
   }
 
   getToken(): string | null {
-    console.log("Token",this.storage?.getItem(Enums.values.token) )
+    console.log("Token", this.storage?.getItem(Enums.values.token));
     return this.storage?.getItem(Enums.values.token) ?? null;
   }
 
-getUserRoles(): string[] {
-  const token = localStorage.getItem('token');
-  if (!token) return [];
+  getUserRoles(): string[] {
+    const token = localStorage.getItem("token");
+    if (!token) return [];
 
-  try {
-    // Decode JWT payload
-    const base64Payload = token.split('.')[1];
-    const jsonPayload = JSON.parse(atob(base64Payload));
+    try {
+      // Decode JWT payload
+      const base64Payload = token.split(".")[1];
+      const jsonPayload = JSON.parse(atob(base64Payload));
 
-    // You can inspect it here
-    console.log('Decoded Token:', jsonPayload);
+      // You can inspect it here
+      console.log("Decoded Token:", jsonPayload);
 
-    // Extract role claim (your token uses full claim URI)
-    const roleClaim =
-      jsonPayload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+      // Extract role claim (your token uses full claim URI)
+      const roleClaim =
+        jsonPayload[
+          "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+        ];
 
-    // Some tokens may have one or multiple roles
-    if (Array.isArray(roleClaim)) return roleClaim;
-    if (typeof roleClaim === 'string') return [roleClaim];
+      // Some tokens may have one or multiple roles
+      if (Array.isArray(roleClaim)) return roleClaim;
+      if (typeof roleClaim === "string") return [roleClaim];
 
-    return [];
-  } catch (error) {
-    console.error('Error decoding token:', error);
-    return [];
+      return [];
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return [];
+    }
   }
-}
 
-isTokenExpired(): boolean {
-  const token = localStorage.getItem('token');
-  if (!token) return true;
+  isTokenExpired(): boolean {
+    const token = localStorage.getItem("token");
+    if (!token) return true;
 
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    return Date.now() > payload.exp * 1000;
-  } catch {
-    return true;
+    try {
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      return Date.now() > payload.exp * 1000;
+    } catch {
+      return true;
+    }
   }
-}
 
   isTokenExpiredActual(): boolean {
     const expiry = this.storage?.getItem(Enums.values.expiry);
@@ -244,7 +242,7 @@ isTokenExpired(): boolean {
       const bufferMs = bufferSeconds * 1000;
       return Date.now() >= expiryTime - bufferMs;
     } catch (error) {
-      console.error('Token expiry check failed:', error);
+      console.error("Token expiry check failed:", error);
       return true; // Fail safe
     }
   }
@@ -264,7 +262,7 @@ isTokenExpired(): boolean {
   }
 
   isLoggedIn(): boolean {
-    console.log("IsLogged", (!!this.getToken()))
+    console.log("IsLogged", !!this.getToken());
     return !!this.getToken();
   }
 
@@ -282,14 +280,14 @@ isTokenExpired(): boolean {
 
   logOut(): void {
     this.clearSession();
-    this.toastr.info('Logged out successfully.');
-    this.router.navigate(['/login']);
+    this.toastr.info("Logged out successfully.");
+    this.router.navigate(["/login"]);
   }
 
-   logoutV2(): void {
+  logoutV2(): void {
     this.clearSession();
-    this.toastr.info('Too many request error. Please login again.');
-    this.router.navigate(['/user-login']);
+    this.toastr.info("Too many request error. Please login again.");
+    this.router.navigate(["/user-login"]);
   }
 
   sessionExpired(): void {
@@ -298,16 +296,16 @@ isTokenExpired(): boolean {
     //this.router.navigate(['/user-login'], { replaceUrl: true });
 
     Swal.fire({
-      icon: 'warning',
-      title: 'Session Expired',
-      text: '',
+      icon: "warning",
+      title: "Session Expired",
+      text: "",
       showConfirmButton: true,
-      confirmButtonColor: '#1976d2',
-      confirmButtonText: 'Go to Login',
+      confirmButtonColor: "#1976d2",
+      confirmButtonText: "Go to Login",
       allowOutsideClick: false,
       allowEscapeKey: false,
     }).then(() => {
-      this.router.navigate(['/user-login'], { replaceUrl: true });
+      this.router.navigate(["/user-login"], { replaceUrl: true });
     });
 
     // Move Swal to component if needed
@@ -316,5 +314,10 @@ isTokenExpired(): boolean {
   private clearSession(): void {
     this.storage?.clear();
     this.session?.clear();
+  }
+
+  sessionExpired2(): void {
+    this.clearSession();
+    this.router.navigate(["/login"]);
   }
 }

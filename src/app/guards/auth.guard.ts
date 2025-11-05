@@ -33,7 +33,7 @@ export class AuthRoleGuard implements CanActivate, CanActivateChild {
   ): boolean | UrlTree {
     // 🔒 1. Authentication check
     if (!this.auth.isLoggedIn()) {
-      this.auth.sessionExpired();
+      this.auth.sessionExpired2();
       return this.router.createUrlTree(["/login"], {
         queryParams: { returnUrl: state.url },
       });
